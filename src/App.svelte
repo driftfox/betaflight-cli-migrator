@@ -142,6 +142,24 @@
     </Snackbar>
     <div style="max-width: 1000px;margin: 0 auto;" class="pa-4 pb-6">
         <div class="d-flex justify-center ma-5"><h3>Betaflight CLI Migrator</h3></div>
+        <div>
+            <div style=" background: red; color: yellow; padding: 20px; border-radius: 10px;">
+                <div style=" font-size: 2rem;">
+                    THIS IS A DEV BUILD AND IS NOT INTENDED FOR PUBLIC USE
+                </div>
+                <p>This is a fork of the tool made by @deduzzo. I decided to create this fork as a Proof-Of-Concept
+                    after
+                    reading <a style="color: inherit; text-decoration: underline"
+                               href="https://github.com/deduzzo/betaflight43-safe-migration/issues/2" target="_blank">this
+                        issue report</a> on the original repo. </p> If you are reading this, the Betaflight 4.4 settings
+                are not an exhaustive list; they're the same Betaflight 4.3 settings with a few extra settings added
+                that appeared as error messages for me when upgrading one of my quads. The settings are for testing
+                purposes only. If you would like to contribute, please comment on this <a
+                    style="color: inherit; text-decoration: underline"
+                    href="https://github.com/deduzzo/betaflight43-safe-migration/issues/2" target="_blank">this
+                issue report</a> and maybe we can come up with something that works for everyone.
+            </div>
+        </div>
         <div class="d-flex justify-center ma-5" style="font-size: 12px">DISCLAIMER: with the use of this tool everyone
             is required to MANUALLY verify the result produced. Given the variety of quads and flight controllers, it is
             possible that the results produced are not 100% perfect. This tool gives an indication, and is to be
