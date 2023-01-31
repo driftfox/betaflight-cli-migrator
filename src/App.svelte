@@ -6,8 +6,9 @@
     import CodeMirror from "./index"
     import OptionSection from "./OptionSection.svelte";
 
-    let editor;
-    let migrationResults;
+    let codeMirrorInputEditor;
+    let codeMirrorResultsEditor;
+    let isShowingResults;
     let backup = "";
     let _otherSectionsAndSectionsEnder = ['profile', 'batch', 'save']
     let snackbar = false;
@@ -29,10 +30,10 @@
 
         let out = "# STARTING PROCESS ";
         let unsafeCount = 0;
-        backup = editor.getValue();
+        backup = codeMirrorInputEditor.getValue();
         if (backup.length === 0) {
             snackMessage = "Nothing to analyze";
-            migrationResults = undefined;
+            isShowingResults = false;
         } else {
             let backupRows = backup.split('\n')
             let weAreInUnSafeSection = false;
@@ -69,9 +70,9 @@
                     }
                 } else out += "\n"
             }
-            // editor.setValue(out)
+            codeMirrorResultsEditor.setValue(out)
             navigator.clipboard.writeText(out);
-            migrationResults = out;
+            isShowingResults = true;
             setTimeout(function () {
                 scrollIntoView('#results');
             }, 200);
@@ -79,11 +80,14 @@
         }
         snackbar = true;
     }
-    const options = {
+    const codemirrorOptions = {
         mode: "python",
         lineNumbers: true,
-        value: backup,
-        viewportMargin: Infinity,
+        value: "",
+    }
+    const codemirrorResultsOptions = {
+        ...codemirrorOptions,
+        readOnly: true,
     }
 
     let selectedMigrationOption = 'fourThreeToFourFour';
@@ -144,9 +148,10 @@
         </div>
         <div class="d-flex justify-center ma-5">Source on: <a
                 href="https://github.com/deduzzo/betaflight43-safe-migration"> Github @deduzzo</a></div>
-        <div class="step mb-3">
+        <div class="step mb-6">
             <h4 class="mb-3">Step 1</h4>
-            <p>Select a Betaflight version.</p>
+            <p>Select a Betaflight version. This will pre-configure the list of safe settings, unsafe settings, and
+                unsafe sections. To view and further customize these settings, click the button below.</p>
             <div style="max-width: 330px">
                 <Select class="mb-3" placeholder="Migrating to which version of Betaflight?" items={migrationVersions}
                         bind:value={selectedMigrationOption} on:change={selectVersion}></Select>
@@ -166,22 +171,20 @@
                 </Card>
             {/if}
         </div>
-        <div class="step mb-3">
+        <div class="step mb-6">
             <h4 class="mb-3">Step 2</h4>
             <p>Run <code>diff all</code> in the Betaflight CLI and paste the output here.</p>
-            <CodeMirror bind:editor {options} class="editor"/>
+            <CodeMirror bind:editor={codeMirrorInputEditor} options={codemirrorOptions} class="editor"/>
         </div>
-        <div class="step mb-3">
+        <div class="step mb-6">
             <h4 class="mb-3">Step 3</h4>
             <div class="d-flex justify-center ma-5">
                 <Button class="d-flex flex-row" on:click={filterBackup}>Get BetaFlight safe diff</Button>
             </div>
         </div>
-        <div class="step mb-3" id="results">
-            {#if migrationResults}
-                <h4 class="mb-3">Results</h4>
-                <pre style="padding: 15px; background: #404040; color: #fff; box-shadow: inset 0 0 10px 3px #1e1e1e;">{migrationResults}</pre>
-            {/if}
+        <div class="step mb-6" id="results" class:hide-results={!isShowingResults}>
+            <h4 class="mb-3">Results</h4>
+            <CodeMirror bind:editor={codeMirrorResultsEditor} options={codemirrorResultsOptions} class="editor"/>
         </div>
     </div>
 </MaterialApp>
@@ -190,6 +193,12 @@
     :global(.editor) {
         font-size: 1rem;
         height: auto;
+    }
+
+    .hide-results {
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
     }
 
     :global(.CodeMirror) {
