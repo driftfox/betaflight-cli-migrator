@@ -121,6 +121,7 @@
 
 <svelte:head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3303696-10"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -132,6 +133,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-3303696-10');
     </script>
+    -->
     <title>Betaflight Safe Migrator - from @deduzzo -</title>
 </svelte:head>
 <MaterialApp>
@@ -146,8 +148,10 @@
             considered as a work in progress. The creators DO NOT assume any responsibility for any malfunction, product
             damage, or problem that may occur after its use.
         </div>
-        <div class="d-flex justify-center ma-5">Source on: <a
-                href="https://github.com/deduzzo/betaflight43-safe-migration"> Github @deduzzo</a></div>
+        <div class="d-flex justify-center ma-5">Source on:
+            <a target="_blank"
+               href="https://github.com/deduzzo/betaflight43-safe-migration">Github @deduzzo</a>
+        </div>
         <div class="step mb-6">
             <h4 class="mb-3">Step 1</h4>
             <p>Select a Betaflight version. This will pre-configure the list of safe settings, unsafe settings, and
